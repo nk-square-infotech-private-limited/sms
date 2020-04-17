@@ -1,0 +1,19 @@
+{
+    "name": "nksquare/sms",
+    "description": "Sms library with support for multiple sms providers",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Thungdemo Ezong",
+            "email": "tezong@nksquare.co.in"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nksquare\\Sms\\": "src/"
+        }
+    }
+}
