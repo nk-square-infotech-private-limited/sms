@@ -21,6 +21,6 @@ $client = new Client($driver);
 
 $message = new Message();
 $message->setMessage('Hello world');
-$message->setRecipient('8794147207');
+$message->setRecipient('1234567890');
 $client->send($message);
 ```
