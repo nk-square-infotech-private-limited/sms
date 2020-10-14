@@ -3,6 +3,7 @@
 namespace Nksquare\Sms\Drivers;
 
 use Nksquare\Sms\Exceptions\InvalidConfigException;
+use Nksquare\Sms\Exceptions\SmsException;
 use Nksquare\Sms\Message;
 
 class Textlocal implements DriverInterface
@@ -45,11 +46,17 @@ class Textlocal implements DriverInterface
         }
     }
 
-    /** 
+    /**
      * @param $message \Nksquare\Sms\Message
+     * @throws \Nksquare\Sms\Exceptions\SmsException
      */
     public function send(Message $message)
     {
+        if(empty($message->getRecipient()))
+        {
+            throw new SmsException('No recipient specified');
+        }
+
         $data = [
             'apikey' => $this->apikey, 
             'sender' => $message->getSender() ?? $this->sender, 
@@ -74,6 +81,7 @@ class Textlocal implements DriverInterface
     /** 
      * @param $messages array
      * @param $sender string|null
+     * @throws \Nksquare\Sms\Exceptions\SmsException
      */
     public function bulk(array $messages,$sender=null)
     {
@@ -81,6 +89,10 @@ class Textlocal implements DriverInterface
 
         foreach ($messages as $message) 
         {
+            if(empty($message->getRecipient()))
+            {
+                throw new SmsException('No recipient specified');
+            }
             $bulk['messages'][] = [
                 'number' => $message->getRecipient(),
                 'text' => $message->getMessage(),
