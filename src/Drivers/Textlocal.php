@@ -52,11 +52,6 @@ class Textlocal implements DriverInterface
      */
     public function send(Message $message)
     {
-        if(empty($message->getRecipient()))
-        {
-            throw new SmsException('No recipient specified');
-        }
-
         $data = [
             'apikey' => $this->apikey, 
             'sender' => $message->getSender() ?? $this->sender, 
@@ -73,7 +68,17 @@ class Textlocal implements DriverInterface
             CURLOPT_RETURNTRANSFER => true
         ]);
 
-        $response = curl_exec($ch);
+        $response = json_decode(curl_exec($ch));
+
+        if($response==null)
+        {
+            throw new SmsException('Connection error');
+        }
+
+        if(strtolower($response->status)=='failure')
+        {
+            throw new SmsException($response->errors[0]->message);
+        }
 
         curl_close($ch);
     }
