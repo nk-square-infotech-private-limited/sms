@@ -20,6 +20,11 @@ class Message
     protected $sender;
 
     /**
+     * @var bool
+     */
+    public $unicode = true;
+
+    /**
      * @param $recipient string
      * @return self
      */

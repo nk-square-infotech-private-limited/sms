@@ -58,6 +58,7 @@ class Textlocal implements DriverInterface
             'numbers' => $message->getRecipient(), 
             'message' => rawurlencode($message->getMessage()),
             'test' => $this->test,
+            'unicode' => $message->unicode,
         ];
 
         $ch = curl_init($this->endpoint.'/send/');
