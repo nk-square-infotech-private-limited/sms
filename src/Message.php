@@ -22,7 +22,7 @@ class Message
     /**
      * @var bool
      */
-    public $unicode = true;
+    public $unicode = false;
 
     /**
      * @param $recipient string
