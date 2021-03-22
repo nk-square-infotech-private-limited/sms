@@ -93,6 +93,8 @@ class Textlocal implements DriverInterface
     {
         $bulk['sender'] = $sender ?? $this->sender;
 
+        $bulk['test'] = $this->test;
+
         foreach ($messages as $message) 
         {
             if(empty($message->getRecipient()))
@@ -107,8 +109,7 @@ class Textlocal implements DriverInterface
 
         $data = [
             'apikey' => $this->apikey,
-            'data' => json_encode($bulk), 
-            'test' => $this->test,
+            'data' => json_encode($bulk)
         ];
 
         $ch = curl_init($this->endpoint.'/bulk_json');
