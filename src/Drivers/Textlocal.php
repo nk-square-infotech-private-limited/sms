@@ -71,17 +71,9 @@ class Textlocal implements DriverInterface
 
         $response = json_decode(curl_exec($ch));
 
-        if($response==null)
-        {
-            throw new SmsException('Connection error');
-        }
-
-        if(strtolower($response->status)=='failure')
-        {
-            throw new SmsException($response->errors[0]->message);
-        }
-
         curl_close($ch);
+
+        $this->parseResponseAndThrowException($response);
     }
 
     /** 
@@ -120,8 +112,23 @@ class Textlocal implements DriverInterface
             CURLOPT_RETURNTRANSFER => true
         ]);
 
-        $response = curl_exec($ch);
+        $response = json_decode(curl_exec($ch));
 
         curl_close($ch);
+
+        $this->parseResponseAndThrowException($response);
+    }
+
+    protected function parseResponseAndThrowException($response)
+    {
+        if($response==null)
+        {
+            throw new SmsException('Connection error');
+        }
+
+        if(strtolower($response->status)=='failure')
+        {
+            throw new SmsException($response->errors[0]->message);
+        }
     }
 }
