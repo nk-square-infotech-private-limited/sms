@@ -9,7 +9,7 @@ class Client
     /**
      * @var \Nksquare\Sms\Drivers\DriverInterface
      */
-    protected $driver;
+    protected DriverInterface $driver;
     
     /**
      * @param $driver \Nksquare\Sms\Drivers\DriverInterface
@@ -22,7 +22,7 @@ class Client
        /** 
      * @param $message \Nksquare\Sms\Message
      */
-    public function send(Message $message)
+    public function send(Message $message) : void
     {
         $this->driver->send($message);
     }
@@ -31,7 +31,7 @@ class Client
      * @param $messages array
      * @param $sender string|null
      */
-    public function bulk(array $messages)
+    public function bulk(array $messages) : void
     {
         $this->driver->bulk($messages);
     }
@@ -39,7 +39,7 @@ class Client
     /** 
      * @return Nksquare\Sms\Drivers\DriverInterface
      */
-    public function getDriver()
+    public function getDriver() : DriverInterface
     {
         return $this->driver;
     }

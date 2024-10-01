@@ -2,26 +2,25 @@
 
 namespace Nksquare\Sms\Drivers;
 
-use Nksquare\Sms\Exceptions\InvalidConfigException;
-use Nksquare\Sms\Exceptions\SmsException;
+use GuzzleHttp\Client;
 use Nksquare\Sms\Message;
+use Nksquare\Sms\Exceptions\SmsException;
+use Nksquare\Sms\Exceptions\InvalidConfigException;
 
 class Textlocal implements DriverInterface
 {
-    /**
-     * @var string
-     */
-    protected $endpoint = 'https://api.textlocal.in';
+    protected string $endpoint = 'https://api.textlocal.in';
+    
+    protected bool $test = false;
+    
+    protected string $apikey;
 
-    /**
-     * @var boolean
-     */
-    protected $test = false;
+    protected string $sender;
 
     /** 
      * @param $config array
      */
-    function __construct($config)
+    function __construct(array $config)
     {
         if(empty($config['apikey']))
         {
@@ -50,7 +49,7 @@ class Textlocal implements DriverInterface
      * @param $message \Nksquare\Sms\Message
      * @throws \Nksquare\Sms\Exceptions\SmsException
      */
-    public function send(Message $message)
+    public function send(Message $message) : void
     {
         $data = [
             'apikey' => $this->apikey, 
@@ -61,17 +60,14 @@ class Textlocal implements DriverInterface
             'unicode' => $message->unicode,
         ];
 
-        $ch = curl_init($this->endpoint.'/send/');
+        $client = new Client();
 
-        curl_setopt_array($ch,[
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $data,
-            CURLOPT_RETURNTRANSFER => true
+
+        $response = $client->post($this->endpoint . '/send/', [
+            'form_params' => $data
         ]);
 
-        $response = json_decode(curl_exec($ch));
-
-        curl_close($ch);
+        $response = json_decode($response->getBody());
 
         $this->parseResponseAndThrowException($response);
     }
@@ -81,7 +77,7 @@ class Textlocal implements DriverInterface
      * @param $sender string|null
      * @throws \Nksquare\Sms\Exceptions\SmsException
      */
-    public function bulk(array $messages,$sender=null)
+    public function bulk(array $messages,?string $sender=null) : void
     {
         $bulk['sender'] = $sender ?? $this->sender;
 
@@ -104,17 +100,13 @@ class Textlocal implements DriverInterface
             'data' => json_encode($bulk)
         ];
 
-        $ch = curl_init($this->endpoint.'/bulk_json');
+        $client = new Client();
 
-        curl_setopt_array($ch,[
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $data,
-            CURLOPT_RETURNTRANSFER => true
+        $response = $client->post($this->endpoint . '/bulk_json', [
+            'form_params' => $data
         ]);
 
-        $response = json_decode(curl_exec($ch));
-
-        curl_close($ch);
+        $response = json_decode($response->getBody());
 
         $this->parseResponseAndThrowException($response);
     }

@@ -7,28 +7,28 @@ class Message
     /**
      * @var string
      */
-    protected $recipient;
+    protected string $recipient;
 
     /**
      * @var string
      */
-    protected $message;
+    protected string $message;
 
     /**
      * @var string
      */
-    protected $sender;
+    protected string $sender;
 
     /**
      * @var bool
      */
-    public $unicode = false;
+    public bool $unicode = false;
 
     /**
      * @param $recipient string
      * @return self
      */
-    public function setRecipient($recipient)
+    public function setRecipient(string $recipient) : static
     {
         $this->recipient = $recipient;
         return $this;
@@ -38,7 +38,7 @@ class Message
      * @param $message string
      * @return self
      */
-    public function setMessage($message)
+    public function setMessage(string $message) : static
     {
         $this->message = $message;
         return $this;
@@ -48,7 +48,7 @@ class Message
      * @param $sender string
      * @return self
      */
-    public function setSender($sender)
+    public function setSender(string $sender) : static
     {
         $this->sender = $sender;
         return $this;
@@ -57,7 +57,7 @@ class Message
     /**
      * @return string
      */
-    public function getRecipient()
+    public function getRecipient() : string
     {
         return $this->recipient;
     }
@@ -65,7 +65,7 @@ class Message
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage() : string
     {
         return $this->message;
     }
@@ -73,7 +73,7 @@ class Message
     /**
      * @return string
      */
-    public function getSender()
+    public function getSender() : string
     {
         return $this->sender;
     }
