@@ -17,7 +17,7 @@ class Message
     /**
      * @var string
      */
-    protected ?string $sender;
+    protected ?string $sender = null;
 
     /**
      * @var bool
@@ -31,7 +31,6 @@ class Message
     public function setRecipient(string $recipient) : static
     {
         $this->recipient = $recipient;
-        $this->sender = null;
         return $this;
     }
 
