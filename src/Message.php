@@ -7,7 +7,7 @@ class Message
     /**
      * @var string
      */
-    protected string $recipient;
+    protected ?string $recipient = null;
 
     /**
      * @var string
@@ -57,7 +57,7 @@ class Message
     /**
      * @return string
      */
-    public function getRecipient() : string
+    public function getRecipient() : ?string
     {
         return $this->recipient;
     }
