@@ -25,6 +25,11 @@ class Message
     public bool $unicode = false;
 
     /**
+     * @var ?string
+     */
+    public ?string $templateId = null;
+
+    /**
      * @param $recipient string
      * @return self
      */
@@ -76,5 +81,23 @@ class Message
     public function getSender() : ?string
     {
         return $this->sender;
+    }
+
+    /**
+     * @param $templateId string
+     * @return self
+     */
+    public function setTemplateId(string $templateId) : static
+    {
+        $this->templateId = $templateId;
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getTemplateId() : ?string
+    {
+        return $this->templateId;
     }
 }
